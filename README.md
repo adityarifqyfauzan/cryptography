@@ -9,7 +9,8 @@ Cryptography adalah ilmu dan seni mengamankan informasi sehingga hanya pihak yan
 
 Ini adalah sebuah tugas dari matakuliah **Kriptografi dan Steganografi**, Jurusan **PJJ Tekinik Informatika**, **Universitas Siber Asia** Semester **Ganjil**, Tahun Akademik 2024/2025.
 
-Kelompok: **1**
+Kelompok: **1** 
+
 Kelas: **IF504**
 
 Repository ini menyediakan fungsi-fungsi untuk:
