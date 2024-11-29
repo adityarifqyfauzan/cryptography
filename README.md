@@ -15,8 +15,8 @@ Kelas: **IF504**
 
 Repository ini menyediakan fungsi-fungsi untuk:
 - Melakukan enkripsi dan dekripsi secara symetric menggunakan algoritma AES.
-- Melakukan enkripsi dan dekripsi secara aymetric menggunakan algoritma RSA.
-- Melakukan hasing menggunakan algoritma SHA.
+- Melakukan enkripsi dan dekripsi secara asymetric menggunakan algoritma RSA.
+- Melakukan hashing menggunakan algoritma SHA.
 
 Pada repository ini hanya mengimpelemtasikan secara sederhana dari masing masing algoritma diatas, tidak disarankan untuk digunakan di lingkungan production **(For Learning Purpose Only!)**.
 
