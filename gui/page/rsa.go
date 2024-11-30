@@ -280,6 +280,5 @@ func RSADecrypt(w fyne.Window) fyne.CanvasObject {
 }
 
 func RSA(w fyne.Window) fyne.CanvasObject {
-	content := markdownContent("docs/rsa.md")
-	return content
+	return markdownContent("rsa.md")
 }

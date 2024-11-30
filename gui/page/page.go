@@ -2,19 +2,20 @@ package page
 
 import (
 	"log"
-	"os"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/adityarifqyfauzan/cryptography/docs"
 )
 
 func loadMarkdownFromFile(filePath string) string {
-	content, err := os.ReadFile(filePath)
+	data, err := docs.DocsMarkdown.ReadFile(filePath)
 	if err != nil {
-		log.Fatalf("Gagal membaca file Markdown: %v", err)
+		log.Fatal(err)
 	}
-	return string(content)
+
+	return string(data)
 }
 
 func markdownContent(path string) fyne.CanvasObject {

@@ -239,6 +239,5 @@ func AESEncrypt(w fyne.Window) fyne.CanvasObject {
 }
 
 func AES(w fyne.Window) fyne.CanvasObject {
-	content := markdownContent("docs/aes.md")
-	return content
+	return markdownContent("aes.md")
 }

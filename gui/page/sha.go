@@ -120,6 +120,5 @@ func SHAHash(w fyne.Window) fyne.CanvasObject {
 }
 
 func SHA(w fyne.Window) fyne.CanvasObject {
-	content := markdownContent("docs/sha.md")
-	return content
+	return markdownContent("sha.md")
 }
