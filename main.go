@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/adityarifqyfauzan/cryptography/cmd"
+	"github.com/adityarifqyfauzan/cryptography/gui"
 	"github.com/manifoldco/promptui"
 )
 
@@ -14,6 +15,7 @@ func resetTerminal() {
 }
 
 func main() {
+	// Colors
 	reset := "\033[0m"
 
 	purple := "\033[1;35m"
@@ -45,6 +47,7 @@ func main() {
 		prompt := promptui.Select{
 			Label: "Main Menu",
 			Items: []string{
+				"🖥️  Buka GUI",
 				"🔐  Encrypt",
 				"🔓  Decrypt",
 				"🔑  Hash",
@@ -59,6 +62,11 @@ func main() {
 		}
 
 		switch result {
+		case "🖥️  Buka GUI":
+			gui.Run()
+			resetTerminal()
+			continue
+
 		case "🔐  Encrypt":
 			prompt := promptui.Select{
 				Label: "Pilih Algoritma",

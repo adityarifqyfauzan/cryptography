@@ -92,6 +92,9 @@ cryptography/
 ├── main.go         # File utama untuk menjalankan program
 ├── cmd/            # Endpoint/Controller masing masing menu
 ├── crypto/         # Implementasi algoritma kriptografi
+├── docs/           # Berisi dokumentasi algoritma yang digunakan
+├── gui/            # Implementasi GUI untuk aplikasi Cryptography
+├  └── page/        # Page untuk masing masing menu
 ├── go.mod          # List library/dependensi eksternal yang digunakan
 ├── go.sum          # Mencatat check sum dari dependensi eksternal yang digunakan
 └── README.md       # Dokumentasi proyek
