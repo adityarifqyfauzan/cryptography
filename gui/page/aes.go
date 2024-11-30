@@ -188,8 +188,6 @@ func AESEncrypt(w fyne.Window) fyne.CanvasObject {
 			aesBitSize = selectedBit
 		}
 
-		fmt.Println(len(key))
-
 		// Lakukan enkripsi
 		ciphertext, err := crypto.ManualAESEncrypt(key, []byte(message))
 		if err != nil {
