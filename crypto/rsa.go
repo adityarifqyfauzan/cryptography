@@ -14,6 +14,14 @@ import (
 
 // ManualRSAEncrypt encrypts the given plaintext using the public key (e, n).
 func ManualRSAEncrypt(publicKey [2]*big.Int, plaintext []byte) ([]byte, error) {
+	if len(publicKey) != 2 {
+		return nil, errors.New("invalid public key length: must be 2 bytes")
+	}
+
+	if len(plaintext) == 0 {
+		return nil, errors.New("plaintext cannot be empty")
+	}
+
 	e := publicKey[0]
 	n := publicKey[1]
 
@@ -36,6 +44,14 @@ func ManualRSAEncrypt(publicKey [2]*big.Int, plaintext []byte) ([]byte, error) {
 
 // ManualRSADecrypt decrypts the given ciphertext using the private key (d, n).
 func ManualRSADecrypt(privateKey [2]*big.Int, ciphertext []byte) ([]byte, error) {
+	if len(privateKey) != 2 {
+		return nil, errors.New("invalid private key length: must be 2 bytes")
+	}
+
+	if len(ciphertext) == 0 {
+		return nil, errors.New("ciphertext cannot be empty")
+	}
+
 	d := privateKey[0]
 	n := privateKey[1]
 

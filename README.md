@@ -18,7 +18,7 @@ Repository ini menyediakan fungsi-fungsi untuk:
 - Melakukan enkripsi dan dekripsi secara asymetric menggunakan algoritma RSA.
 - Melakukan hashing menggunakan algoritma SHA.
 
-Pada repository ini hanya mengimpelemtasikan secara sederhana dari masing masing algoritma diatas, tidak disarankan untuk digunakan di lingkungan production **(For Learning Purpose Only!)**.
+Pada project ini hanya mengimplementasikan secara sederhana dari masing masing algoritma diatas, tidak disarankan untuk digunakan di lingkungan production **(For Learning Purpose Only!)**.
 
 ---
 

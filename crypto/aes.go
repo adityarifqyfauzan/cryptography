@@ -28,6 +28,10 @@ func GenerateAESKey(bitSize int) ([]byte, error) {
 }
 
 func ManualAESEncrypt(key, plaintext []byte) ([]byte, error) {
+	if len(plaintext) == 0 {
+		return nil, errors.New("plaintext cannot be empty")
+	}
+
 	if len(key) != 16 && len(key) != 24 && len(key) != 32 {
 		return nil, errors.New("invalid key length: must be 16, 24, or 32 bytes")
 	}
@@ -45,6 +49,10 @@ func ManualAESEncrypt(key, plaintext []byte) ([]byte, error) {
 }
 
 func ManualAESDecrypt(key, ciphertext []byte) ([]byte, error) {
+	if len(ciphertext) == 0 {
+		return nil, errors.New("ciphertext cannot be empty")
+	}
+
 	if len(key) != 16 && len(key) != 24 && len(key) != 32 {
 		return nil, errors.New("invalid key length: must be 16, 24, or 32 bytes")
 	}

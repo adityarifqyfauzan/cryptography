@@ -1,6 +1,10 @@
 package crypto
 
 func ManualSHA(data []byte) []byte {
+	if len(data) == 0 {
+		return nil
+	}
+
 	paddedData := padDataSHA(data)
 
 	// Inisialisasi state awal (seperti SHA-256)
