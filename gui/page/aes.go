@@ -75,6 +75,8 @@ func AESDecrypt(w fyne.Window) fyne.CanvasObject {
 			return
 		}
 
+		dialog.ShowInformation("Informasi", "Dekripsi berhasil", w)
+
 		// Tampilkan hasil dekripsi
 		decryptedMessageOutput.SetText(string(plaintext))
 	})
@@ -194,6 +196,8 @@ func AESEncrypt(w fyne.Window) fyne.CanvasObject {
 			dialog.ShowError(errors.New(fmt.Sprintf("Gagal mengenkripsi pesan: %v", err)), w)
 			return
 		}
+
+		dialog.ShowInformation("Informasi", "Pesan berhasil dienkripsi", w)
 
 		// Tampilkan ciphertext
 		ciphertextOutput.SetText(hex.EncodeToString(ciphertext))
