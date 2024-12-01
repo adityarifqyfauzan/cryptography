@@ -16,9 +16,6 @@ import (
 )
 
 func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
-	var publicKey [2]*big.Int
-	var keyGenerated bool
-
 	// Section 1: Generate Key Pair
 	keyLabel := widget.NewLabel("Generate RSA Key Pair:")
 	bitOptions := widget.NewSelect([]string{"1024", "2048", "4096"}, func(value string) {})
@@ -27,7 +24,6 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 	publicKeyLabel := widget.NewLabel("Public Key (Base64):")
 	publicKeyE := widget.NewEntry()
 	publicKeyE.SetPlaceHolder("Eksponen publik akan muncul di sini")
-	publicKeyE.Disable()
 	copyPublicKeyButton := widget.NewButton("Salin Public Key", func() {
 		w.Clipboard().SetContent(fmt.Sprintf("%s", publicKeyE.Text))
 		dialog.ShowInformation("Informasi", "Public key disalin ke clipboard", w)
@@ -74,10 +70,6 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 				return
 			}
 
-			// Simpan kunci yang dihasilkan
-			publicKey = pubKey
-			keyGenerated = true
-
 			pubE, pubN := crypto.PublicKeyToBase64(pubKey)
 			privD, privN := crypto.PrivateKeyToHex(privKey)
 
@@ -103,8 +95,8 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 	})
 
 	encryptButton := widget.NewButton("Encrypt", func() {
-		if !keyGenerated {
-			dialog.ShowError(errors.New("Silakan generate key terlebih dahulu"), w)
+		if publicKeyE.Text == "" {
+			dialog.ShowError(errors.New("Public key tidak boleh kosong, silahkan generate terlebih dahulu"), w)
 			return
 		}
 
@@ -114,11 +106,19 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 			return
 		}
 
-		encryptedBytes, err := crypto.ManualRSAEncrypt(publicKey, []byte(message))
+		key, err := keyToBigInt(publicKeyE.Text, "base64")
 		if err != nil {
 			dialog.ShowError(err, w)
 			return
 		}
+
+		encryptedBytes, err := crypto.ManualRSAEncrypt(key, []byte(message))
+		if err != nil {
+			dialog.ShowError(err, w)
+			return
+		}
+
+		dialog.ShowInformation("Informasi", "Pesan berhasil dienkripsi", w)
 
 		encryptedMessageOutput.SetText(hex.EncodeToString(encryptedBytes))
 	})
@@ -126,7 +126,6 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 	resetButton := widget.NewButton("Reset", func() {
 		dialog.ShowConfirm("Konfirmasi", "Apakah Anda yakin ingin menghapus data?", func(confirmed bool) {
 			if confirmed {
-				keyGenerated = false
 				bitOptions.SetSelected("")
 				publicKeyE.SetText("")
 				privateKeyD.SetText("")
@@ -171,6 +170,39 @@ func RSAEncrypt(w fyne.Window) fyne.CanvasObject {
 	return content
 }
 
+func keyToBigInt(key, format string) ([2]*big.Int, error) {
+	parts := strings.Split(key, " ")
+	if len(parts) != 2 {
+		return [2]*big.Int{}, errors.New("invalid key format")
+	}
+
+	var a, b *big.Int
+	var err error
+	if format == "hex" {
+		a, err = crypto.HexToBigInt(parts[0])
+		if err != nil {
+			return [2]*big.Int{}, errors.New("invalid key format")
+		}
+
+		b, err = crypto.HexToBigInt(parts[1])
+		if err != nil {
+			return [2]*big.Int{}, errors.New("invalid key format")
+		}
+	} else if format == "base64" {
+		a, err = crypto.Base64ToBigInt(parts[0])
+		if err != nil {
+			return [2]*big.Int{}, errors.New("invalid key format")
+		}
+
+		b, err = crypto.Base64ToBigInt(parts[1])
+		if err != nil {
+			return [2]*big.Int{}, errors.New("invalid key format")
+		}
+	}
+
+	return [2]*big.Int{a, b}, nil
+}
+
 func RSADecrypt(w fyne.Window) fyne.CanvasObject {
 	// Input untuk private key
 	privateKeyLabel := widget.NewLabel("Private Key (Hex):")
@@ -204,25 +236,11 @@ func RSADecrypt(w fyne.Window) fyne.CanvasObject {
 			return
 		}
 
-		// Parse private key dari Hex
-		privateKeyParts := strings.Split(privateKeyText, " ")
-		if len(privateKeyParts) != 2 {
-			dialog.ShowError(errors.New("Private key harus berformat eksponen:d modulus:n"), w)
-			return
-		}
-
-		d, err := crypto.HexToBigInt(privateKeyParts[0])
+		key, err := keyToBigInt(privateKeyText, "hex")
 		if err != nil {
-			dialog.ShowError(errors.New("Eksponen (d) tidak valid"), w)
+			dialog.ShowError(errors.New("Private key tidak valid"), w)
 			return
 		}
-		n, err := crypto.HexToBigInt(privateKeyParts[1])
-		if err != nil {
-			dialog.ShowError(errors.New("Modulus (n) tidak valid"), w)
-			return
-		}
-
-		privateKey := [2]*big.Int{d, n}
 
 		// Parse encrypted data dari Hex
 		encryptedDataBytes, err := hex.DecodeString(encryptedDataText)
@@ -232,11 +250,13 @@ func RSADecrypt(w fyne.Window) fyne.CanvasObject {
 		}
 
 		// Decrypt data
-		decryptedBytes, err := crypto.ManualRSADecrypt(privateKey, encryptedDataBytes)
+		decryptedBytes, err := crypto.ManualRSADecrypt(key, encryptedDataBytes)
 		if err != nil {
 			dialog.ShowError(fmt.Errorf("Gagal mendekripsi data: %w", err), w)
 			return
 		}
+
+		dialog.ShowInformation("Informasi", "Pesan berhasil didekripsi", w)
 
 		decryptedMessageOutput.SetText(string(decryptedBytes))
 	})

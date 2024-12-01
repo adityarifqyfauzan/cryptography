@@ -47,7 +47,7 @@ func main() {
 		prompt := promptui.Select{
 			Label: "Main Menu",
 			Items: []string{
-				"🖥️  Buka GUI",
+				"🖥️   Buka GUI",
 				"🔐  Encrypt",
 				"🔓  Decrypt",
 				"🔑  Hash",
@@ -62,7 +62,7 @@ func main() {
 		}
 
 		switch result {
-		case "🖥️  Buka GUI":
+		case "🖥️   Buka GUI":
 			gui.Run()
 			resetTerminal()
 			continue
