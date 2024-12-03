@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/cmd/fyne_demo/data"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
@@ -15,11 +14,9 @@ const preferenceCurrentTutorial = "currentTutorial"
 
 var topWindow fyne.Window
 
-func Run() {
-	a := app.NewWithID("com.adityarifqyfauzan.cryptography")
+func Run(a fyne.App, w fyne.Window) {
 	a.SetIcon(data.FyneLogo)
 	logLifecycle(a)
-	w := a.NewWindow("Cryptography")
 	topWindow = w
 	w.SetMaster()
 
@@ -76,7 +73,6 @@ func Run() {
 		w.SetContent(split)
 	}
 	w.Resize(fyne.NewSize(640, 460))
-	w.ShowAndRun()
 }
 
 func logLifecycle(a fyne.App) {

@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"fyne.io/fyne/v2/app"
 	"github.com/adityarifqyfauzan/cryptography/cmd"
 	"github.com/adityarifqyfauzan/cryptography/gui"
 	"github.com/manifoldco/promptui"
@@ -43,6 +44,9 @@ func main() {
 	fmt.Println()
 	fmt.Println(purple + "©" + time.Now().Format("2006") + " Kelompok 1. Powered by Go." + reset)
 
+	// initialize gui app
+	var apps = app.NewWithID("com.kelompok-1.cryptography")
+
 	for {
 		prompt := promptui.Select{
 			Label: "Main Menu",
@@ -63,9 +67,13 @@ func main() {
 
 		switch result {
 		case "🖥️   Buka GUI":
-			gui.Run()
+			window := apps.NewWindow("Cryptography")
+			gui.Run(apps, window)
+			window.ShowAndRun()
+			window.Close()
+			apps.Quit()
 			resetTerminal()
-			continue
+			return
 
 		case "🔐  Encrypt":
 			prompt := promptui.Select{
